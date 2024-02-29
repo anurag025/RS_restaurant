@@ -16,10 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import users
-import menu
+from django.conf.urls import include, url
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', users.urls),
-    path('menu/', menu.urls)
+    url(r'^user/', include('users.urls')),
+    url(r'^menu/', include('menu.urls'))
 ]
