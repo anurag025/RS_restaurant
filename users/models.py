@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from rest_framework import serializers
 
+
 class Employee(models.Model):
     employee_name = models.CharField(max_length=60, null=True)
     address = models.CharField(max_length=60, null=True)
