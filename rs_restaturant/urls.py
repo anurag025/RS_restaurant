@@ -18,7 +18,7 @@ from django.urls import path
 
 from django.conf.urls import include, url
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^user/', include('users.urls')),
-    url(r'^menu/', include('menu.urls'))
+    url(r'^menu/', include('menu.urls')),
 ]
