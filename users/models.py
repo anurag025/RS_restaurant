@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 
 class Employee(models.Model):
@@ -12,7 +13,7 @@ class Employee(models.Model):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(max_length=100)
+    email = serializers.EmailField(max_length=100)
     name = serializers.CharField(max_length=60)
     phone = serializers.CharField(max_length=10)
 
@@ -23,4 +24,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Customize how Employee objects are created
         return Employee.objects.create(**validated_data)
+
+    def validate_phone(self, value):
+        if Employee.objects.filter(phone=value).exists():
+            raise serializers.ValidationError(f'User with this phone number {value} already exist.')
+        return value
 

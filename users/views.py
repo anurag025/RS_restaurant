@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 
 # Create your views here.
 from users.models import EmployeeSerializer, Employee
@@ -17,9 +17,9 @@ class User(APIView):
         create_user = EmployeeSerializer(data={'name': name, "phone": phone, "email": email})
         if create_user.is_valid():
             create_user.save()
-            return Response({"data": {"msg": "user added succesfully"}}, status=HTTP_200_OK)
+            return Response({"data": {"msg": "user added succesfully"}}, status=HTTP_201_CREATED)
         else:
-            return Response({"data": {"msg": f"User with this phone {phone} number already exist"}},
+            return Response(create_user.errors,
                             status=HTTP_400_BAD_REQUEST)
 
         # employee, status = Employee.objects.get_or_create(name=name, email=email, phone=phone)
