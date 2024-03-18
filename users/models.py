@@ -7,11 +7,14 @@ from rest_framework import serializers
 class Employee(models.Model):
     name = models.CharField(max_length=60, null=True)
     address = models.CharField(max_length=60, null=True)
-    phone = models.CharField(max_length=10, null=True)
-    email = models.CharField(max_length=100, null=True)
+    phone = models.CharField(max_length=10, unique=True)
+    email = models.EmailField(max_length=100, null=True)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(max_length=100)
+    name = serializers.CharField(max_length=60)
+    phone = serializers.CharField(max_length=10)
 
     class Meta:
         model = Employee
@@ -20,3 +23,4 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Customize how Employee objects are created
         return Employee.objects.create(**validated_data)
+
