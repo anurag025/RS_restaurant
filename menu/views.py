@@ -12,7 +12,7 @@ class AddItem(APIView):
         price = request.data.get('price')
         discription = request.data.get('discription')
 
-        item = MenuSerializer(name=name, price=price, discription=discription)
+        item = MenuSerializer(data={'name': name, 'price': price, 'discription': discription})
         if item.is_valid():
             item.save()
             return Response({"data": {"msg": "item added succesfully", 'data': item.data}}, status=HTTP_200_OK)

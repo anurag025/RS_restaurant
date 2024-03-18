@@ -28,3 +28,5 @@ class User(APIView):
         # else:
         #     return Response({"data": {"msg": "user added succesfully"}}, status=HTTP_200_OK)
 
+    def get(self, user_id):
+        pass
