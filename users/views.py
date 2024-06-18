@@ -3,30 +3,19 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 
 # Create your views here.
-from users.models import EmployeeSerializer, Employee
+from users.models import Employee, Permision
 from rest_framework.views import APIView
 
 
-class User(APIView):
+class Dashboard(APIView):
 
-    def post(self, request):
-        name = request.data.get('employee_name')
-        phone = request.data.get('phone')
-        email = request.data.get('email')
+    def get(self, request):
+        permissions = Permision.objects.filter(user_id='1')
+        permission_list = [permission.permissions for permission in permissions]
+        if 'access_dashboard_page' not in permission_list:
 
-        create_user = EmployeeSerializer(data={'name': name, "phone": phone, "email": email})
-        if create_user.is_valid():
-            create_user.save()
-            return Response({"data": {"msg": "user added succesfully"}}, status=HTTP_201_CREATED)
+            return Response({"data": {"msg": f"You dont have permision to access this page"}}, status=HTTP_400_BAD_REQUEST)
         else:
-            return Response(create_user.errors,
-                            status=HTTP_400_BAD_REQUEST)
+            Response({"data": {}}, status=HTTP_200_OK)
 
-        # employee, status = Employee.objects.get_or_create(name=name, email=email, phone=phone)
-        # if not status:
-        #     return Response({"data": {"msg": f"User with this phone {phone} number already exist"}}, status=HTTP_400_BAD_REQUEST)
-        # else:
-        #     return Response({"data": {"msg": "user added succesfully"}}, status=HTTP_200_OK)
 
-    def get(self, user_id):
-        pass
