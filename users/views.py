@@ -16,6 +16,6 @@ class Dashboard(APIView):
 
             return Response({"data": {"msg": f"You dont have permision to access this page"}}, status=HTTP_400_BAD_REQUEST)
         else:
-            Response({"data": {}}, status=HTTP_200_OK)
+            return Response({"data": {}}, status=HTTP_200_OK)
 
 
